@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: integration-suite-test-component-git-source-rmee
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: integration-suite-test-component-git-source-rmee
+    app.kubernetes.io/part-of: integ-app-gdik
+  name: integration-suite-test-component-git-source-rmee
+  namespace: integration-e2e-anro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: integration-suite-test-component-git-source-rmee
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: integration-suite-test-component-git-source-rmee
+    spec:
+      containers:
+      - image: quay.io/psturc/test-images:2a00893a655b4bccb87d3d0c688a76cf
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
